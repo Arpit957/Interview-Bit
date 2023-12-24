@@ -1,0 +1,20 @@
+int dp[51][51][51];
+bool func(int st1, int st2, int l, const string a, const string b){
+int n = a.size();
+if(a == b) return true;
+if(dp[st1][st2][l] != -1) return dp[st1][st2][l];
+   bool poss = false;
+  for(int i = 1; i < n; i++){
+         poss |= func(st1 + 0, st2 + 0, i, a.substr(0,i), b.substr(0, i)) && 
+                 func(st1 + i, st1 + i, n-i, a.substr(i,n-i), b.substr(i, n-i));
+         poss |= func(st1 + 0, st2 + n-i, i, a.substr(0, i), b.substr(n-i, i)) && 
+                 func(st1 + i, st2 + 0, n-i, a.substr(i, n-i), b.substr(0, n-i));
+      }
+    return dp[st1][st2][l] = poss;
+}
+
+int Solution::isScramble(const string a, const string b) {
+if(a.size() != b.size()) return false;
+memset(dp, -1, sizeof(dp));
+return func(0, 0, a.size(), a, b);
+}
