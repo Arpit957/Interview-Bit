@@ -1,0 +1,28 @@
+  int rescue(vector<vector<int>>&arr,int row,int col,vector<vector<int>>&dp){
+        if(row>=arr.size() or col>=arr[0].size()){
+            return 1e6;
+        }
+        if(dp[row][col]!=-1){
+            return dp[row][col];
+        }
+        int right=rescue(arr,row,col+1,dp);
+        int down=rescue(arr,row+1,col,dp);
+        int h=min(right,down); //it denotes the minimum health left while going down or right
+        if(h==1e6) {//it reached last block{
+           h=1;
+        }
+    int initial_health=h-arr[row][col];//initial_health+arr[row][col]=h
+        if(initial_health<=0){
+            return dp[row][col]=1;
+        }
+        else
+        return dp[row][col]=initial_health;
+    }
+
+int Solution::calculateMinimumHP(vector<vector<int> > &A) {
+    int n = A.size();
+    int m = A[0].size();
+    vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
+    return rescue(A,0,0,dp);
+  //  return abs(solve(0,0,A,dp)) + 1 ;
+}
