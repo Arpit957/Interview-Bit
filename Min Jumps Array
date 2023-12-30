@@ -1,0 +1,15 @@
+int Solution::jump(vector<int> &A) {
+    int can_go = 0;
+    int maxi = 0;
+    int jump = 0;
+    for(int i = 0 ; i <= maxi;i++){
+        if(i == A.size() -1)return jump;
+        
+        can_go = max(can_go,A[i]+i);
+        if(i == maxi){
+            jump++;
+            maxi = can_go;
+        }
+    }
+    return - 1;
+}
