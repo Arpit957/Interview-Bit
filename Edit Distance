@@ -1,0 +1,27 @@
+int solve(int i,int j,string s,string t,int n,int m,vector<vector<int>>&dp){
+    if(i>=n)return m - j;
+    if(j>=m)return n - i;
+    int ans = 0;
+    
+    if(dp[i][j] != -1)
+    return dp[i][j];
+    
+    if(s[i] == t[j]){
+        return dp[i][j]=solve(i+1,j+1,s,t,n,m,dp);
+    }
+    else{
+        int replace = 1 + solve(i+1,j+1,s,t,n,m,dp);
+        int insert = 1 + solve(i,j+1,s,t,n,m,dp);
+        int del = 1 + solve(i+1,j,s,t,n,m,dp);
+        
+         ans = min(replace,min(del,insert));
+    }
+    return dp[i][j]= ans;
+}
+
+int Solution::minDistance(string A, string B) {
+    int n = A.size();
+    int m = B.size();
+    vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
+    return solve(0,0,A,B,n,m,dp);
+}
