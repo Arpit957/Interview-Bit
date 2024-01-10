@@ -1,0 +1,25 @@
+int f(int i,int j,vector<vector<int>>&A,vector<vector<int>>&dp){
+         int n=A.size();
+      if(i==n-1){  
+        return A[i][j];
+     }
+    if(dp[i][j]!=-1)return dp[i][j];
+   
+    return dp[i][j]= min(f(i+1,j,A,dp),f(i+1,j+1,A,dp))+A[i][j];
+}
+int Solution::minimumTotal(vector<vector<int> > &A) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    int ans = 0;
+    // for(auto i:A){
+    //     vector<int>arr = i;
+    //     sort(arr.begin(),arr.end());
+    //     ans+=arr[0];
+    // }
+    // return ans;
+     int n=A.size();
+  vector<vector<int>>dp(n,vector<int>(n,-1));
+  return f(0,0,A,dp);
+}
