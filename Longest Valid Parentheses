@@ -1,0 +1,18 @@
+int Solution::longestValidParentheses(string A) {
+  int n=A.length();
+stack<int>stac;
+stac.push(-1);
+int maxi=0;
+for(int i=0;i<n;i++){
+int top = stac.top();
+if(A[top]=='(' && A[i]== ')'){
+stac.pop();
+int newtop = stac.top();
+maxi = max(maxi,i-newtop);
+}
+else{
+stac.push(i);
+}
+}
+return maxi;
+}
