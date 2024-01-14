@@ -1,0 +1,28 @@
+ListNode* merge(ListNode* l1, ListNode* l2) {
+    ListNode dummy(INT_MIN);
+    ListNode *tail = &dummy;
+    while (l1 && l2) {
+        if (l1->val < l2->val) {
+            tail->next = l1;
+            l1 = l1->next;
+        } else {
+            tail->next = l2;
+            l2 = l2->next;
+        }
+        tail = tail->next;
+    }
+    tail->next = l1 ? l1 : l2;
+    return dummy.next;
+}
+ListNode* Solution::sortList(ListNode* A) {
+    if (!A || !A->next) return A;
+    ListNode *slow = A, *fast = A, *prev = NULL;
+    while (fast && fast->next) {
+        prev = slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    prev->next = NULL;
+    ListNode *l1 = sortList(A);
+    ListNode *l2 = sortList(slow);
+    return merge(l1, l2);
