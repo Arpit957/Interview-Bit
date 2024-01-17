@@ -9,45 +9,30 @@
 ListNode* Solution::reverseBetween(ListNode* A, int B, int C) {
       if(A==NULL || A->next==NULL) return A;
    
-    ListNode * m=A;
-    ListNode * n=A;
-    ListNode * x = A;
-    int b=1;
-    while(b<B)
-    {   x=m;
-        m=m->next;
-        b+=1;
+   ListNode* dummy = new ListNode(-1);
+    dummy->next = A;
+    ListNode* prev = dummy;
+    
+    while(B>1){
+        prev = prev -> next;
+        B--;
+        C--;
     }
-   
-    int c=1;
-   
-    while(c<=C)
-    {
-        n=n->next;
-        c+=1;
-    }
-   
-    ListNode * p =NULL;
-    ListNode * q=m;
-    ListNode*r;
-   
-    int count=1;
-   
-    while(count<=C-B+1)
-    {  
-        r=q->next;
-        q->next=p;
-        p=q;
-        q=r;  
-        count+=1;    
-    }
-   
-    if (x == m) {
-        A = p;
-    } else {
-        x->next = p;
-    }
-    m->next = q;
-    return A;
+    
+    ListNode * curr = prev ->next;
+    ListNode* tail = prev ->next;
+    
+    ListNode* temp = nullptr;
+    while(C--){
+        ListNode* forward = curr->next;
+        curr->next = temp;
+        temp = curr;
+        curr = forward;
+    }  
+    
+    tail->next = curr;
+    prev->next = temp;
+    
+    return dummy->next;
 }
 
