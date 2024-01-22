@@ -1,0 +1,29 @@
+int Solution::trap(const vector<int> &arr) {
+    int leftmax=0,rightmax=0,water=0;
+        //largest building ka index
+       int  maxheight=arr[0];
+        int n=arr.size();
+       int maxheightindex=0;
+        for(int i=0;i<n;i++){
+            if(maxheight<arr[i]){
+                maxheight=arr[i];
+                maxheightindex=i;
+            }
+        }       
+    //maxheightindex;
+    //leftmax
+    for(int i=1;i<maxheightindex;i++){
+        leftmax=max(leftmax,arr[i-1]);
+        if(leftmax-arr[i]>0){
+            water+=leftmax-arr[i];
+        }
+    }
+    //rightmax
+    for(int i=n-2;i>maxheightindex;i--){
+        rightmax=max(rightmax,arr[i+1]);
+        if(rightmax-arr[i]>0){
+            water+=rightmax-arr[i];
+        }
+    }
+    return water;
+}
