@@ -1,0 +1,31 @@
+ void dfs(UndirectedGraphNode* node,UndirectedGraphNode* copy,vector<UndirectedGraphNode*>&vis){     
+        vis[copy->label]=copy;     
+        for(auto x :node->neighbors){
+            if(vis[x->label]==NULL){
+                UndirectedGraphNode* temp = new UndirectedGraphNode(x->label);
+                (copy->neighbors).push_back(temp);
+                dfs(x,temp,vis);
+            }
+            else{
+                (copy->neighbors).push_back(vis[x->label]);
+            }
+        }  
+    }
+map<UndirectedGraphNode*,UndirectedGraphNode*> m;
+
+UndirectedGraphNode *Solution::cloneGraph(UndirectedGraphNode *node) {
+
+    if(m.find(node)!=m.end()) return m[node];
+
+    UndirectedGraphNode* root=new UndirectedGraphNode(node->label);
+
+    m[node]=root;
+
+    for(auto it:node->neighbors){
+
+        root->neighbors.push_back(cloneGraph(it));
+
+    }
+
+    return root;
+}
