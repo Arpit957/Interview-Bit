@@ -1,0 +1,52 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+//    TreeNode* func(vector<int>&  lv, int l, int r){
+//       int n = lv.size();
+//       if(l<0 or r>=n or r<l) return NULL;
+//        int mid =  l+(r-l)/2;
+//         TreeNode* node = new TreeNode(lv[mid]);
+//         node->left = func(lv,l,mid-1);
+//         node->right= func(lv, mid+1,r);
+//         return node;
+//   }
+  TreeNode* bst(ListNode* front , ListNode* back){
+if(front == back)return nullptr;
+ListNode* slow = front ;ListNode* fast = front;
+while(fast != back and fast->next != back){
+slow = slow->next;
+fast=fast->next->next;
+}
+TreeNode* node = new TreeNode(slow->val);
+node->left = bst(front,slow);
+node->right = bst(slow->next,back);
+return node;
+}
+TreeNode* Solution::sortedListToBST(ListNode* A) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    //    vector<int> lv;
+    // while(A) {
+    //     lv.push_back(A->val);
+    //     A = A->next;
+    // }
+    // TreeNode* node = func(lv,0, lv.size()-1);
+    // return node;
+    return bst(A , nullptr);
+}
