@@ -1,0 +1,23 @@
+void dfs(int i, int A, int B, set<int>& ans){
+    if(i > B)
+        return;
+       
+    if(i >= A && i <= B)
+        ans.insert(i);
+       
+    int lastDigit = i%10;
+   
+    if(lastDigit != 9)
+        dfs(i*10 + lastDigit+1,A,B,ans);
+    if(lastDigit != 0)
+        dfs(i*10 + lastDigit-1,A,B,ans);
+   
+    return;
+   
+}
+vector<int> Solution::stepnum(int A, int B) {
+    set<int> ans;
+    for(int i = 0; i < 10; i++)
+        dfs(i,A,B,ans);
+    return vector<int>(ans.begin(),ans.end());
+}
