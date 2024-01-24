@@ -1,0 +1,30 @@
+vector<pair<char,pair<int,int>>> dir ={{'D',{1,0}},{'R',{0,1}},{'U',{-1,0}},{'L',{0,-1}}};
+int Solution::solve(int n, int m, vector<string> &C) {
+    priority_queue<pair<int,pair<int,int>> ,vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>> > q;
+    vector<vector<int>> dis(n,vector<int> (m,INT_MAX)); // for containing smallest distance to that node from 0,0
+    dis[0][0] = 0;
+    q.push({0,{0,0}});
+    int ans = INT_MAX;
+    while(!q.empty()){
+        int cost = q.top().first;
+        int x = q.top().second.first;
+        int y = q.top().second.second;
+        q.pop();
+        if(x == n-1 && y == m-1) return cost;
+        for(auto ele:dir){
+            int newX = x+ele.second.first;
+            int newY = y+ele.second.second;
+            char ch = ele.first;
+            if(newX<0 || newY <0 || newX>=n || newY >=m) continue;
+            if(ch == C[x][y] && dis[newX][newY]>cost){
+                q.push({cost,{newX,newY}});
+                dis[newX][newY] = cost;
+            }
+            else if(dis[newX][newY] > cost+1){
+                q.push({cost+1,{newX,newY}});
+                dis[newX][newY] = cost+1;
+            }
+        }
+    }
+    return -1;
+}
