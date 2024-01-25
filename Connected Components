@@ -1,0 +1,27 @@
+void dfs(int node , vector<bool>&visited , vector<vector<int>>&adj){
+    if(!visited[node]){
+        visited[node] = true;
+        for(auto it: adj[node]){
+            dfs(it , visited , adj);
+        }
+    }
+    return;
+}
+int Solution::solve(int A, vector<vector<int> > &B) {
+       int counts = 0;
+    int n =  B.size();
+    //creation of adjacency list
+    vector<vector<int>> adj(A+1);
+    for(int i = 0 ; i < B.size() ; i++){
+        adj[B[i][0]].push_back(B[i][1]);
+        adj[B[i][1]].push_back(B[i][0]);
+    }
+    vector<bool> visited(A+1 , false);
+    for(int i = 1 ; i <= A ; i++){
+        if(!visited[i]){
+            counts++;
+            dfs(i , visited , adj);
+        }
+    }
+    return counts;
+}
