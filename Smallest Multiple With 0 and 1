@@ -1,0 +1,44 @@
+string Solution::multiple(int n) {
+        if(n==1){
+        return "1";
+    }
+     queue<int>q;
+     q.push(1);
+     vector<char>v(n,'2');
+     v[1]='1';
+     // initiallly the parent of each node let to be -1
+     vector<int>parent(n,-1);
+     while(!q.empty()){
+         int r=q.front();
+         q.pop();
+         if(r==0){
+             break;
+         }
+         // when add 0 to it
+         int r0=(r*10+0)%n;
+         // when add 1 to it
+         int r1=(r*10+1)%n;
+         // if this reaminder exits int the vector means already stored value
+         if(v[r0]=='2'){
+             v[r0]='0';
+             q.push(r0);
+             parent[r0]=r;
+         }
+         if(v[r1]=='2'){
+             v[r1]='1';
+             q.push(r1);
+             parent[r1]=r;
+         }
+     }
+     string res="";
+     int rem=0;
+     // trace the path where we got 0 to the 1 initial from where we start then we will be reverse the string
+     // when we loop untill rem==1
+     while(rem!=1){
+         res+=v[rem];
+         rem=parent[rem];
+     }
+     res+='1';
+     reverse(res.begin(),res.end());
+     return res;
+}
