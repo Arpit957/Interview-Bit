@@ -1,0 +1,61 @@
+int visited[1009][1009];
+int dx[]={0,0,1,-1};
+int dy[]={1,-1,0,0};
+bool isSafe(int x,int y,int n,int m,vector<vector<char> > &A)
+{
+    if(x>=0 && x<n && y>=0 && y<m && visited[x][y]==0 && A[x][y]=='O')
+        return true;
+    return false;
+}
+void bfs(int x,int y,int n,int m,vector<vector<char> >&A)
+{
+    visited[x][y]=1;
+    queue<pair<int,int> >q;
+    q.push({x,y});
+    while(q.empty()==false)
+    {
+        pair<int,int> temp=q.front();
+        q.pop();
+        for(int i=0;i<4;i++)
+        {
+            int nx=temp.first+dx[i];
+            int ny=temp.second + dy[i];
+            if(isSafe(nx,ny,n,m,A))
+            {
+                visited[nx][ny]=1;
+                q.push({nx,ny});
+            }
+        }
+    }
+}
+void Solution::solve(vector<vector<char> > &A) {
+    int n=A.size();
+    int m=A[0].size();
+    memset(visited,0,sizeof(visited));
+    if(n==1 || m==1)
+        return;
+    for(int j=0;j<m;j++)
+        if(A[0][j]=='O')
+            bfs(0,j,n,m,A);
+    for(int i=1;i<n;i++)
+        if(A[i][m-1]=='O')
+            bfs(i,m-1,n,m,A);
+    for(int j=0;j<=m-2;j++)
+        if(A[n-1][j]=='O')
+            bfs(n-1,j,n,m,A);
+    for(int i=1;i<=n-2;i++)
+        if(A[i][0]=='O')
+            bfs(i,0,n,m,A);
+    
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(A[i][j]=='O' && visited[i][j]==0)
+            {
+                A[i][j]='X';
+            }
+        }
+    }
+    return;
+}
