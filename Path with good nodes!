@@ -1,0 +1,36 @@
+int dfs(int node,vector<int>adj[],vector<int>&vis,vector<int> &A,int c){
+    
+    c = c - A[node - 1];
+    
+    if(adj[node].size() == 1){
+        if(c >=0)return 1;
+        return 0;
+    }
+    
+    vis[node] = 1;
+    
+    int count = 0;
+    
+    for(auto i:adj[node]){
+        if(!vis[i]){
+            count+=dfs(i,adj,vis,A,c);
+        }
+    }
+    return count;
+}
+
+int Solution::solve(vector<int> &A, vector<vector<int> > &B, int C) {
+    int n =A.size();
+    
+    vector<int>adj[n+1];
+    
+    vector<int>vis(n+1,0);
+    
+    for(int i = 0;i<B.size();i++){
+        adj[B[i][0]].push_back(B[i][1]);
+        adj[B[i][1]].push_back(B[i][0]);
+    }
+    
+    return dfs(1,adj,vis,A,C);
+    
+}
