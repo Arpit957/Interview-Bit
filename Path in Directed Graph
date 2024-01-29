@@ -1,0 +1,25 @@
+void dfs(int node,int target,vector<int>adj[],vector<vector<int> > &B,vector<int>&vis){
+    //if(node == target)return 1;
+    
+    vis[node] = 1;
+    for(auto i:adj[node]){
+        if(!vis[i]){
+            dfs(i,target,adj,B,vis);
+        }
+    }
+   // return 0;
+}
+int Solution::solve(int A, vector<vector<int> > &B) {
+    int n = B.size();
+    vector<int>adj[A+1];
+    vector<int>vis(A+1,0);
+    for(auto i:B){
+        adj[i[0]].push_back(i[1]);
+  }
+    
+     dfs(1,A,adj,B,vis);
+     
+     if(vis[A]==1)return 1;
+     else return 0;
+    
+}
