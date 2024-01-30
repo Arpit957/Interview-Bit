@@ -1,0 +1,73 @@
+// void dkstra(int start,vector<int>&dist,vector<vector<pair,int,int>>>&adj){
+//     set<vector<int>>s;
+    
+//     vector<int>vis(dist.size(),-1);
+//     vis[start] = 
+// }
+int Solution::solve(int A, vector<vector<int> > &B, int C, int D, vector<vector<int> > &E) {
+        vector<pair<int,pair<int,int>>>adj[A+1];
+    //{node,{wt,type}}
+    for(auto it:B)
+    {
+        adj[it[0]].push_back({it[1],{it[2],0}});
+        adj[it[1]].push_back({it[0],{it[2],0}});
+    }
+    for(auto it:E)
+    {
+        adj[it[0]].push_back({it[1],{it[2],1}});
+        adj[it[1]].push_back({it[0],{it[2],1}});
+    }
+    // dis[x][0] tells the distance to reach node x from source node if we use 0 extra edges.
+     // dis[x][1] tells the distance to reach node x from source node if we use 1 extra edge.
+    vector<vector<int>>dis(A+1,vector<int>(2,1e9));
+    dis[C][0]=0;dis[C][1]=0;
+priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>>pq;
+    //{wt,node,type}
+    pq.push({0,{C,0}});
+    pq.push({0,{C,1}});
+    while(!pq.empty())
+    {
+        int wt=pq.top().first;
+        int node=pq.top().second.first;
+        int type=pq.top().second.second;
+        pq.pop();
+        for(auto it:adj[node])
+        {
+            int adj_node=it.first;
+            int pathwt=it.second.first;
+            int adjtype=it.second.second;
+            if(type==1)
+            {
+                if(adjtype==0)
+                {
+                    if(wt+pathwt < dis[adj_node][1])
+                    {
+                        dis[adj_node][1]=wt+pathwt;
+                        pq.push({dis[adj_node][1],{adj_node,1}});
+                    }
+                }
+            }
+            else if(type==0)
+            {
+                if(adjtype==0)
+                {
+                    if(wt+pathwt < dis[adj_node][0])
+                    {
+                        dis[adj_node][0]=wt+pathwt;
+                        pq.push({dis[adj_node][0],{adj_node,0}});
+                    }
+                }
+                if(adjtype==1)
+                {
+                    if(wt+pathwt < dis[adj_node][1])
+                    {
+                        dis[adj_node][1]=wt+pathwt;
+                        pq.push({dis[adj_node][1],{adj_node,1}});
+                    }
+                }
+            }
+        }
+    }
+    if(dis[D][0]==1e9 && dis[D][1]==1e9) return -1;
+    return min(dis[D][0],dis[D][1]);
+}
