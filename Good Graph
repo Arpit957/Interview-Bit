@@ -1,0 +1,52 @@
+void dfs(vector<bool> &good, vector<int> adj[], int s){
+    good[s] = true;
+    // cout<<
+    for(int x: adj[s]){
+        if(good[x] == false){
+            dfs(good, adj, x);
+        }
+    }
+}
+
+void recur(vector<int> adj[], vector<bool> &vis, stack<int> &st, int s){
+    vis[s] = true;
+    for(int x: adj[s]){
+        if(vis[x] == false){
+            recur(adj, vis, st, x);
+        }
+    }
+    st.push(s);
+}
+
+int Solution::solve(vector<int> &A) {
+    int n = A.size();
+    vector<int> adj[n];
+    for(int i = 0; i < n; i++){
+        adj[A[i]-1].push_back(i);
+    }
+   
+    vector<bool> good(n, false);
+    good[0] = true;
+    dfs(good, adj, 0);
+    vector<bool> vis = good;
+    
+    //topological sort
+    stack<int> st;
+    for(int i = 0; i < n; i++){
+        if(good[i] == false && vis[i] == false){
+            recur(adj, vis, st, i);
+        }
+    }
+    vis = {false};
+    int ans = 0;
+    while(st.empty() == false){
+        int u = st.top();
+        st.pop();
+        if(good[u] == false){
+            ans++;
+            dfs(good, adj, u);
+        }
+    }
+    return ans;  
+}
+
