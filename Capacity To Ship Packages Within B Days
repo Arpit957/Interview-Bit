@@ -1,0 +1,46 @@
+bool isPossible(vector<int> &A, int B,int temp_ans){
+    int no_of_days = 0;
+    
+    int temp_weight = 0;
+    
+    for(int i = 0;i < A.size();i++){
+        if(A[i]+temp_weight <= temp_ans){
+            temp_weight +=A[i];
+        }
+        else{
+            no_of_days++;
+            
+            if(no_of_days >= B or A[i] > temp_ans)return false;
+            
+            temp_weight = A[i];
+        }
+    }
+    return true;
+}
+
+int Solution::solve(vector<int> &A, int B) {
+    
+    int low = 0;
+    
+    int sum = 0;
+    for(auto i:A)sum+=i;
+    
+    int high = sum;
+    
+    int ans = -1;
+    
+    while(low <= high){
+        int temp_ans = low + (high-low)/2;
+        
+        if(isPossible(A,B,temp_ans)){
+            ans = temp_ans;
+            high = temp_ans - 1;
+        }
+        else{
+            low = temp_ans + 1;
+        }
+    }    
+    
+    return ans;
+    
+}
