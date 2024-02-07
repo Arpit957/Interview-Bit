@@ -1,0 +1,23 @@
+int Solution::kthsmallest(const vector<int> &A, int B) {
+    int low = *min_element(A.begin(),A.end());
+    int high = *max_element(A.begin(),A.end());
+    
+    while(low < high){
+        int mid = low + (high - low)/2;
+        
+        int count = 0;
+       for(auto i:A){
+           if( i <= mid){
+               count++;
+           }
+       }
+       
+       if(count < B){
+           low = mid+1;
+       }
+       else{
+           high = mid;
+       }
+    }
+    return low;
+}
