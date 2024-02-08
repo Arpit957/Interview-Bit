@@ -1,0 +1,61 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ bool chck(TreeNode*A,int B){
+     if(!A) return false;
+     if(A->val==B) return true;
+     
+     else return chck(A->left,B)||chck(A->right,B);
+ }
+ TreeNode* solve(TreeNode* A, int B, int C)
+ {
+     if(!A)return NULL;
+     if(A->val==B) {return A;}
+      if(A->val==C){ return A;}
+     TreeNode*lt=solve(A->left,B,C);
+     TreeNode*rt=solve(A->right,B,C);
+     
+     if(lt && rt) return A;
+     if(lt) return lt;
+     if(rt) return rt;
+  
+     return NULL;
+ }
+int Solution::lca(TreeNode* A, int B, int C) {
+     int both_exist=0;
+     both_exist=chck(A,B)&&chck(A,C);
+    TreeNode*ans=solve(A,B,C);
+
+   if(ans && both_exist) return ans->val;
+   return -1;
+    //   TreeNode* f=lcaa(A,B,C);
+    //   return f->val;
+      
+    //   if(root==NULL)return -1;
+       
+    //    if(root->val ==n1 || root->val==n2){
+    //        return root->val;
+    //    }
+       
+    //    int* leftans = lca(root->left,n1,n2);
+    //    int* rightans = lca(root->right,n1,n2);
+       
+    //    if(leftans!=NULL && rightans!=NULL){
+    //        return root->val;
+    //    }
+    //    else if(leftans==NULL){
+    //        return rightans->val;
+    //    }
+    //    else if(rightans==NULL){
+    //        return leftans->val;
+    //    }
+    //    else{
+    //        return -1;
+    //    }
+}
