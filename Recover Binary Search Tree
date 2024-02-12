@@ -1,0 +1,51 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ void solve(TreeNode* root,vector<int>&ans){
+     if(root == NULL)return;
+     
+     solve(root->left,ans);
+     ans.push_back(root->val);
+     solve(root->right,ans);
+ }
+ void makevector(TreeNode* root , int &a , int &b , int &prev){
+    if(root == NULL){
+        return ;
+    }
+    makevector(root->left , a, b,prev);
+    if(root->val > prev)prev = root->val;
+    else{
+            a = prev;
+            b = root->val;
+    }
+    makevector(root->right , a,b,prev);
+}
+vector<int> Solution::recoverTree(TreeNode* A) {
+    // vector<int>ans;
+    // solve(A,ans);
+    
+    // int n = ans.size();
+    // vector<int>temp;
+    // for(auto i:ans){
+    //     temp.push_back(i);
+    // }
+    // sort(temp.begin(),temp.end());
+    
+    // vector<int>res;
+    
+    // for(int i = 0 ;i < n; i++){
+    //     if(temp[i] != ans[i])res.push_back(ans[i]);
+    // }
+    // sort(res.begin(),res.end());
+    // return res;
+    
+       int a = -1 ; int b = -1 ; int prev = -1;
+   makevector(A,a,b,prev);
+   return{b,a};
+}
