@@ -1,0 +1,20 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+void removeHalfChild(TreeNode* &root){
+if(root == NULL) return;
+if(root->left != NULL && root->right == NULL) root = root->left;
+if(root->right != NULL && root->left == NULL) root = root->right;
+removeHalfChild(root->left);
+removeHalfChild(root->right);
+}
+TreeNode* Solution::solve(TreeNode* A) {
+removeHalfChild(A);
+return A;
+}
