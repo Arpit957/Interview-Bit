@@ -1,0 +1,36 @@
+const int maxN = 1e5 + 5;
+vector<int> g[maxN];
+int res = 0;
+// Utility method to do DFS of the graph and count edge removal
+int dfs(int u, int par) {
+    int currComponentNode = 0;
+    //  iterate over all neighbor of node u
+    for (auto v: g[u]) {
+        if(v == par){
+            continue;
+        }
+        // Count the number of nodes in a subtree
+        int subtreeNodeCount = dfs(v, u);
+        // if returned node count is even, disconnect the subtree and increase result by one.
+        if (subtreeNodeCount % 2 == 0)
+            res++;
+        //  else add subtree nodes in current component
+        else
+            currComponentNode += subtreeNodeCount;
+    }
+    // number of nodes in current component and one for current node
+    return (currComponentNode + 1);
+}
+int Solution::solve(int A, vector<vector<int> > &B) {
+    for(int i = 1; i <= A; i++){
+        g[i].clear();
+    }
+    for(int i = 0; i < B.size(); i++){
+        g[B[i][0]].push_back(B[i][1]);
+        g[B[i][1]].push_back(B[i][0]);
+    }
+    res = 0;
+    // calling the dfs from node-1 and making its parent as -1
+    dfs(1, 0);
+    return res;
+}
