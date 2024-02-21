@@ -1,0 +1,41 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ void findheight(TreeNode* root,unordered_map<int,vector<int>> &adj,int parent){
+     if(root==NULL)return;
+     if(parent!=-1){
+         adj[parent].push_back(root->val);
+         adj[root->val].push_back(parent);
+     }
+     findheight(root->left,adj,root->val);
+     findheight(root->right,adj,root->val);
+     return;
+ }
+int Solution::solve(TreeNode* A, int B) {
+     unordered_map<int,vector<int>> adj;
+    findheight(A,adj,-1);
+    unordered_map<int,int> vis;
+    queue<pair<int,int>> q;
+    q.push({B,0});
+    int ans=0;
+    while(!q.empty()){
+        int node=q.front().first;
+        int lvl=q.front().second;
+        ans=max(lvl,ans);
+        q.pop();
+        vis[node]=1;
+        for(auto it:adj[node]){
+            if(!vis[it]){
+                q.push({it,lvl+1});
+                //vis[it]=1;
+            }
+        }
+    }
+    return ans;
+}
