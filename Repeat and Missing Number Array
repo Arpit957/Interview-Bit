@@ -1,0 +1,20 @@
+vector<int> Solution::repeatedNumber(const vector<int> &A) {
+    int n = A.size();
+    long long sum = 0;
+    long long squareSum = 0;
+    long long expectedSum = (long long)n * (n + 1) / 2;
+    long long expectedSquareSum = (long long)n * (n + 1) * (2 * n + 1) / 6;
+    for (int num : A) {
+        sum += num;
+        squareSum += (long long)num * num;
+    }
+    long long diffSum = expectedSum - sum;
+    long long diffSquareSum = expectedSquareSum - squareSum;
+    
+    long long sumDiff = diffSquareSum / diffSum;
+    
+    int missingNumber = (sumDiff + diffSum) / 2;
+    int repeatedNumber = (sumDiff - missingNumber);
+    
+    return {repeatedNumber, missingNumber};
+}
