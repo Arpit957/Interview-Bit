@@ -1,0 +1,22 @@
+int Solution::perfectPeak(vector<int> &arr) {
+    int n = arr.size();
+
+    vector<int>maxLeft(n, INT_MIN);
+    vector<int>minRight(n,INT_MAX);
+
+    maxLeft[0] = arr[0];
+    for(int i=1;i<n;i++){
+        maxLeft[i] = max(maxLeft[i-1], arr[i-1]);
+    }
+
+    minRight[0] = arr[n-1];
+    for(int i=n-2;i>=0;i--){
+        minRight[i] = min(minRight[i+1], arr[i+1]);
+    }
+
+    for(int i=1;i<n-1;i++){
+        if(arr[i]>maxLeft[i] && arr[i]<minRight[i])
+            return 1;
+    }
+    return 0;
+}
