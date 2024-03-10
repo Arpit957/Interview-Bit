@@ -1,0 +1,17 @@
+vector<int> Solution::maxone(vector<int> &A, int B) {
+    
+       int n = A.size(),i = 0,j = 0,ctZero = 0,ind = 0,mxLen = 0;
+      while(j < n){
+        if(A[j] == 0) ctZero++;
+        while(i <= j && ctZero > B){
+            if(A[i++] == 0) ctZero--;
+        }
+        if(j - i + 1 > mxLen){
+            mxLen = j - i + 1; ind = i;
+        }
+        j++;
+    }
+    vector<int> ans;
+    for(int i = ind;i < ind + mxLen; ++i) ans.push_back(i);
+    return ans;
+}
