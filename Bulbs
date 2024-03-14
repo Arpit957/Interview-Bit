@@ -1,0 +1,19 @@
+int Solution::bulbs(vector<int> &A) {
+       bool flag = true;
+       int i=0;
+
+    int ans = 0;
+
+    while(i < A.size()){
+        if(flag && A[i] == 0) {
+            ans++;
+            flag = false;
+        }
+        if(!flag && A[i]){
+            flag = true;
+            ans++;
+        }
+        i++;
+    }
+    return ans;
+}
