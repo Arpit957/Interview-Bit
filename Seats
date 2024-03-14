@@ -1,0 +1,38 @@
+int Solution::seats(string A) {
+    int n = A.size();
+    
+    int first = -1;
+    int last = -1;
+    
+    for(int i = 0 ; i < n ; i++){
+        if(A[i] == 'x'){
+            first = i;
+            break;
+        }
+    }
+    
+    for(int i = n - 1; i >=0 ;i--){
+        if(A[i] == 'x'){
+            last = i;
+            break;
+        }
+    }
+    
+    // if(first == -1 or last == -1){
+    //     return 0;
+    // }
+    int count = 0;
+    for(int i = first ; i <= last ; i++){
+        if(A[i] == '.')count++;
+    }
+    //return count;
+    
+       long long totalx = 0, leftx = 0, ans = 0;
+    for(int i = 0; i < n; i++) if(A[i] == 'x') totalx++;
+    for(int i = 0; i < n; i++) {
+        if(A[i] == 'x') leftx++;
+                   //     (left side,  right side)
+        else ans = (ans + min(leftx, totalx-leftx)) % 10000003;
+    }
+    return ans;
+}
